@@ -1,6 +1,6 @@
-function initColision(N) {
+function initMovimiento(N) {
 
-    const canvas = document.getElementById("canvas2");
+    const canvas = document.getElementById("canvas1");
     let ctx = canvas.getContext("2d");
 
     const window_height = canvas.height = 250;
@@ -22,6 +22,8 @@ function initColision(N) {
 
             if (this.dx === 0) this.dx = this.speed;
             if (this.dy === 0) this.dy = this.speed;
+
+            this.timer = 0;
         }
 
         draw(context) {
@@ -40,7 +42,6 @@ function initColision(N) {
         update(context) {
             this.draw(context);
 
-            // 🔥 LIMITES (FIX)
             if ((this.posX + this.radius) > window_width || (this.posX - this.radius) < 0) {
                 this.dx *= -1;
             }
@@ -51,23 +52,6 @@ function initColision(N) {
 
             this.posX += this.dx;
             this.posY += this.dy;
-        }
-    }
-
-    function detectarColisiones() {
-        for (let i = 0; i < circles.length; i++) {
-            for (let j = i + 1; j < circles.length; j++) {
-
-                let dx = circles[j].posX - circles[i].posX;
-                let dy = circles[j].posY - circles[i].posY;
-
-                let distancia = Math.sqrt(dx * dx + dy * dy);
-
-                if (distancia < circles[i].radius + circles[j].radius) {
-                    circles[i].color = "red";
-                    circles[j].color = "red";
-                }
-            }
         }
     }
 
@@ -83,7 +67,6 @@ function initColision(N) {
     function animate() {
         ctx.clearRect(0, 0, window_width, window_height);
         circles.forEach(c => c.update(ctx));
-        detectarColisiones();
         requestAnimationFrame(animate);
     }
 
