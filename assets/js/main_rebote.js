@@ -8,6 +8,14 @@ function initRebote(N) {
 
     let circles = [];
 
+    // 🎨 función de color aleatorio
+    function randomColor() {
+        return "rgb(" +
+            Math.floor(Math.random() * 255) + "," +
+            Math.floor(Math.random() * 255) + "," +
+            Math.floor(Math.random() * 255) + ")";
+    }
+
     class Circle {
         constructor(x, y, radius, color, text, speed) {
             this.posX = x;
@@ -40,7 +48,7 @@ function initRebote(N) {
         update(context) {
             this.draw(context);
 
-            // 🔥 límites
+            // límites
             if ((this.posX + this.radius) > window_width || (this.posX - this.radius) < 0) {
                 this.dx *= -1;
             }
@@ -54,7 +62,6 @@ function initRebote(N) {
         }
     }
 
-    // 🔥 COLISIONES FLUIDAS (FIX REAL)
     function detectarColisiones() {
         for (let i = 0; i < circles.length; i++) {
             for (let j = i + 1; j < circles.length; j++) {
@@ -67,7 +74,7 @@ function initRebote(N) {
 
                 if (distancia < minDist) {
 
-                    // 🔥 separar (EVITA TRABADO)
+                    // 🔥 separar (evita trabado)
                     let angle = Math.atan2(dy, dx);
                     let overlap = minDist - distancia;
 
@@ -80,12 +87,16 @@ function initRebote(N) {
                     circles[j].posX += moveX;
                     circles[j].posY += moveY;
 
-                    // 🔁 rebote limpio
+                    // 🔁 rebote
                     circles[i].dx *= -1;
                     circles[i].dy *= -1;
 
                     circles[j].dx *= -1;
                     circles[j].dy *= -1;
+
+                    // 🎨 CAMBIO DE COLOR (LO NUEVO)
+                    circles[i].color = randomColor();
+                    circles[j].color = randomColor();
                 }
             }
         }

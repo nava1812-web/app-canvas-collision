@@ -40,7 +40,7 @@ function initColision(N) {
         update(context) {
             this.draw(context);
 
-            // 🔥 LIMITES (FIX)
+            // límites
             if ((this.posX + this.radius) > window_width || (this.posX - this.radius) < 0) {
                 this.dx *= -1;
             }
@@ -54,6 +54,7 @@ function initColision(N) {
         }
     }
 
+    // 🔥 COLISION + CAMBIO AZUL/ROJO
     function detectarColisiones() {
         for (let i = 0; i < circles.length; i++) {
             for (let j = i + 1; j < circles.length; j++) {
@@ -64,8 +65,10 @@ function initColision(N) {
                 let distancia = Math.sqrt(dx * dx + dy * dy);
 
                 if (distancia < circles[i].radius + circles[j].radius) {
-                    circles[i].color = "red";
-                    circles[j].color = "red";
+
+                    // 🔵🔴 alternar color
+                    circles[i].color = circles[i].color === "blue" ? "red" : "blue";
+                    circles[j].color = circles[j].color === "blue" ? "red" : "blue";
                 }
             }
         }
